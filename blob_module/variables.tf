@@ -13,7 +13,7 @@ variable "base_resource_group_location" {
   default     = ""
   description = "description"
 }
-variable "blob_name" {
+variable "base_name_blob" {
   type        = string
   default     = ""
   description = "description"
@@ -30,7 +30,7 @@ variable "blob_source" {
 }
 variable "storage_account_tier" {
   type        = string
-  default     = "Standart"
+  default     = "Standard"
   description = "description"
 }
 variable "storage_account_replication_type" {

@@ -8,7 +8,7 @@ resource "azurerm_storage_account" "storage_account" {
 
 resource "azurerm_storage_container" "storage_container" {
     name                  = var.base_name_container
-    storage_account_name  = var.storage_account_name
+    storage_account_name  = var.base_name_account
     container_access_type = var.storage_container_container_access_type
 }
 

@@ -25,38 +25,59 @@ resource "azurerm_resource_group" "lime" {
 }
 
 
-resource "azurerm_storage_account" "databricks" {
-    name                     = "limelearndb"
-    resource_group_name      = azurerm_resource_group.lime.name
-    location                 = azurerm_resource_group.lime.location
-    account_tier             = "Standard"
-    account_replication_type = "LRS"
+module "sourceblob" {
+    source = "./blob_module"
+    base_name_account = "limelearndb"
+    base_name_container = "sourcecontainer"
+    base_resource_group_location = "West Europe"
+
 }
 
-resource "azurerm_storage_container" "sourcecontainer" {
-    name                  = "sourcecontainer"
-    storage_account_name  = azurerm_storage_account.databricks.name
-    container_access_type = "private"
+module "sinkblob" {
+    source = "./blob_module"
+    base_name_account = "limelearndb"
+    base_name_container = "sinkcontainer"
+    base_resource_group_location = "West Europe"
+
 }
 
-resource "azurerm_storage_blob" "sourceblob" {
-    name                   = "sourceblob"
-    storage_account_name   = azurerm_storage_account.databricks.name
-    storage_container_name = azurerm_storage_container.sourcecontainer.name
-    type                   = "Block"
-    #source                 = "some-local-file.zip"
-}
 
-resource "azurerm_storage_container" "sinkcontainer" {
-    name                  = "sinkcontainer"
-    storage_account_name  = azurerm_storage_account.databricks.name
-    container_access_type = "private"
-}
 
-resource "azurerm_storage_blob" "sinkblob" {
-    name                   = "sinkblob"
-    storage_account_name   = azurerm_storage_account.databricks.name
-    storage_container_name = azurerm_storage_container.sinkcontainer.name
-    type                   = "Block"
-    #source                 = "some-local-file.zip"
-}
+
+
+
+# resource "azurerm_storage_account" "databricks" {
+#     name                     = "limelearndb"
+#     resource_group_name      = azurerm_resource_group.lime.name
+#     location                 = azurerm_resource_group.lime.location
+#     account_tier             = "Standard"
+#     account_replication_type = "LRS"
+# }
+
+# resource "azurerm_storage_container" "sourcecontainer" {
+#     name                  = "sourcecontainer"
+#     storage_account_name  = azurerm_storage_account.databricks.name
+#     container_access_type = "private"
+# }
+
+# resource "azurerm_storage_blob" "sourceblob" {
+#     name                   = "sourceblob"
+#     storage_account_name   = azurerm_storage_account.databricks.name
+#     storage_container_name = azurerm_storage_container.sourcecontainer.name
+#     type                   = "Block"
+#     #source                 = "some-local-file.zip"
+# }
+
+# resource "azurerm_storage_container" "sinkcontainer" {
+#     name                  = "sinkcontainer"
+#     storage_account_name  = azurerm_storage_account.databricks.name
+#     container_access_type = "private"
+# }
+
+# resource "azurerm_storage_blob" "sinkblob" {
+#     name                   = "sinkblob"
+#     storage_account_name   = azurerm_storage_account.databricks.name
+#     storage_container_name = azurerm_storage_container.sinkcontainer.name
+#     type                   = "Block"
+#     #source                 = "some-local-file.zip"
+# }
